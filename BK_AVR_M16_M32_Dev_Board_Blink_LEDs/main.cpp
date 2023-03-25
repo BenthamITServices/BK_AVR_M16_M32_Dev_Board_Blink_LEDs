@@ -51,11 +51,9 @@ int main(void)
 		_delay_ms(100);
 		//		PORTB &= ~(1 << PINB1);
 		PORTB = 0xFF; //Turn off LEDs
-		_delay_ms(1000);
+		_delay_ms(500);
 
-		
-		
-	}
+		}
 
 
 

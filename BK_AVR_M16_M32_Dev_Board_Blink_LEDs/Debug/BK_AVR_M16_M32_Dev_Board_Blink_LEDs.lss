@@ -153,8 +153,8 @@ Disassembly of section .text:
   c2:	8f ef       	ldi	r24, 0xFF	; 255
   c4:	88 bb       	out	0x18, r24	; 24
   c6:	2f ef       	ldi	r18, 0xFF	; 255
-  c8:	83 ed       	ldi	r24, 0xD3	; 211
-  ca:	90 e3       	ldi	r25, 0x30	; 48
+  c8:	89 e6       	ldi	r24, 0x69	; 105
+  ca:	98 e1       	ldi	r25, 0x18	; 24
   cc:	21 50       	subi	r18, 0x01	; 1
   ce:	80 40       	sbci	r24, 0x00	; 0
   d0:	90 40       	sbci	r25, 0x00	; 0
