@@ -83,50 +83,51 @@ Disassembly of section .text:
   78:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
 0000007c <main>:
+#include <util/delay.h> //Convenience functions for busy-wait delay loops
 
 int x = 0;
 
-int main(void)
-{
-	DDRB = DDRB | 0b11111111; //All PORTB pins to be outputs = 0xFF
+int main(void) {
+  DDRB = DDRB | 0b11111111; // All PORTB pins to be outputs = 0xFF
   7c:	87 b3       	in	r24, 0x17	; 23
   7e:	8f ef       	ldi	r24, 0xFF	; 255
   80:	87 bb       	out	0x17, r24	; 23
-	PORTB = 0b11111111; //All PORTB pins set to logic 1 (turn off LEDs) = 0xFF
+  PORTB = 0b11111111; // All PORTB pins set to logic 1 (turn off LEDs) = 0xFF
   82:	88 bb       	out	0x18, r24	; 24
-	
-	DDRA = DDRA | 0b11011100; //PORTA set PA2, PA3, PA4, PA6 & PA7 as outputs = 0xDC
+
+  DDRA = DDRA | 0b11011100; // PORTA set PA2, PA3, PA4, PA6 & PA7 as outputs = 0xDC
   84:	8a b3       	in	r24, 0x1a	; 26
   86:	8c 6d       	ori	r24, 0xDC	; 220
   88:	8a bb       	out	0x1a, r24	; 26
-	PORTA = 0b01100000; // PORTA set PA5 & PA6 to logic 1 = 0x60
+  PORTA = 0b01100000;    // PORTA set PA5 & PA6 to logic 1 = 0x60
   8a:	80 e6       	ldi	r24, 0x60	; 96
   8c:	8b bb       	out	0x1b, r24	; 27
-	
-	while(1) //infinite loop
-	{
-		_NOP();
+
+  while (1) // infinite loop
+  {
+    _NOP();
   8e:	00 00       	nop
-		x++; //Increment variable x
+    x++; // Increment variable x
   90:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <__DATA_REGION_ORIGIN__>
   94:	90 91 61 00 	lds	r25, 0x0061	; 0x800061 <__DATA_REGION_ORIGIN__+0x1>
   98:	01 96       	adiw	r24, 0x01	; 1
   9a:	90 93 61 00 	sts	0x0061, r25	; 0x800061 <__DATA_REGION_ORIGIN__+0x1>
   9e:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <__DATA_REGION_ORIGIN__>
-		_NOP();
+    _NOP();
   a2:	00 00       	nop
-		PORTA = PORTA | 0x04; //Set 8 LEDS latch U4 to transparent mode to reflect state of PORTB
+    PORTA = PORTA | 0x04; // Set 8 LEDS latch U4 to transparent mode to reflect
   a4:	8b b3       	in	r24, 0x1b	; 27
   a6:	84 60       	ori	r24, 0x04	; 4
   a8:	8b bb       	out	0x1b, r24	; 27
-		_NOP();
+                          // state of PORTB
+    _NOP();
   aa:	00 00       	nop
-		
-		PORTB = PINB | 0b00000001; //Set PB0 to 1 to turn off LED D1
+
+    PORTB = PINB | 0b00000001; // Set PB0 to 1 to turn off LED D1
   ac:	86 b3       	in	r24, 0x16	; 22
   ae:	81 60       	ori	r24, 0x01	; 1
   b0:	88 bb       	out	0x18, r24	; 24
-		_NOP();
+    _NOP();
   b2:	00 00       	nop
 	#else
 		//round up by default
@@ -135,25 +136,25 @@ int main(void)
 
 	__builtin_avr_delay_cycles(__ticks_dc);
   b4:	2f ef       	ldi	r18, 0xFF	; 255
-  b6:	80 e7       	ldi	r24, 0x70	; 112
-  b8:	92 e0       	ldi	r25, 0x02	; 2
+  b6:	84 e3       	ldi	r24, 0x34	; 52
+  b8:	9c e0       	ldi	r25, 0x0C	; 12
   ba:	21 50       	subi	r18, 0x01	; 1
   bc:	80 40       	sbci	r24, 0x00	; 0
   be:	90 40       	sbci	r25, 0x00	; 0
   c0:	e1 f7       	brne	.-8      	; 0xba <main+0x3e>
   c2:	00 c0       	rjmp	.+0      	; 0xc4 <main+0x48>
   c4:	00 00       	nop
-		_delay_ms(100);
+    _delay_ms(500);
 
-		PORTB = PINB & 0b11111110; //Sets PB0 to logic 0 to turn on LED D1
+    PORTB = PINB & 0b11111110; // Sets PB0 to logic 0 to turn on LED D1
   c6:	86 b3       	in	r24, 0x16	; 22
   c8:	8e 7f       	andi	r24, 0xFE	; 254
   ca:	88 bb       	out	0x18, r24	; 24
-		_NOP();
+    _NOP();
   cc:	00 00       	nop
-  ce:	2f ef       	ldi	r18, 0xFF	; 255
-  d0:	84 e3       	ldi	r24, 0x34	; 52
-  d2:	9c e0       	ldi	r25, 0x0C	; 12
+  ce:	2f e7       	ldi	r18, 0x7F	; 127
+  d0:	88 e3       	ldi	r24, 0x38	; 56
+  d2:	91 e0       	ldi	r25, 0x01	; 1
   d4:	21 50       	subi	r18, 0x01	; 1
   d6:	80 40       	sbci	r24, 0x00	; 0
   d8:	90 40       	sbci	r25, 0x00	; 0
